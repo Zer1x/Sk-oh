@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "skoh",
+	"version": "${version}",
+	"name": "Skeleton Overhaul",
+	"description": "A little overhaul for skeletons. New mobs, items, locations.",
+	"authors": [
+		"m0ri13"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/skoh/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.m0ri13.skoh.SkeletonOverhaul"
+		],
+		"fabric-datagen": [
+			"net.m0ri13.skoh.SkeletonOverhaulDataGenerator"
+		],
+		"client": [
+			"net.m0ri13.skoh.SkohClient"
+		]
+	},
+	"mixins": [
+		"skoh.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
