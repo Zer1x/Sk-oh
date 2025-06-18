@@ -1,5 +1,7 @@
 package net.m0ri13.skoh.entity.custom;
 
+import net.m0ri13.skoh.SkeletonOverhaul;
+import net.m0ri13.skoh.item.ModItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -13,6 +15,8 @@ import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.EquipmentSlot;                // ★ new
@@ -26,7 +30,6 @@ public class MushroomSkeletonEntity extends SkeletonEntity{
     private int idleAnimationTimeout = 0;
 
     private boolean bowSoundPlayed = false;
-
 
     @Override
     protected void initGoals() {
@@ -107,10 +110,36 @@ public class MushroomSkeletonEntity extends SkeletonEntity{
     @Override
     protected void dropEquipment(ServerWorld world, DamageSource source, boolean causedByPlayer) {
         super.dropEquipment(world, source, causedByPlayer);
+
+        Random random = world.getRandom();
+
+        // Дроп костей 0-2
+        int boneCount = random.nextInt(3);
+        for (int i = 0; i < boneCount; i++) {
+            this.dropItem(Items.BONE);
+        }
+
+        // Дроп стрел 0-2
+        int arrowCount = random.nextInt(3);
+        for (int i = 0; i < arrowCount; i++) {
+            this.dropItem(Items.ARROW);
+        }
+
+        // Дроп грибов 0-1 с шансом 50%
+        if (random.nextFloat() < 0.5f) {
+            this.dropItem(Items.RED_MUSHROOM);
+        }
+
+        // Редкий дроп MUSHROOM_SKELETON_SPORE с шансом 1 из 10
+        if (random.nextInt(10) == 0) {
+            this.dropItem(ModItems.MUSHROOM_SKELETON_SPORE);
+        }
+
         if (source.getAttacker() instanceof CreeperEntity creeperEntity && creeperEntity.shouldDropHead()) {
             creeperEntity.onHeadDropped();
             this.dropItem(Items.SKELETON_SKULL);
         }
     }
+
 }
 
